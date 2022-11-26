@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  vars:
+    - tar_file: "dir1.tar.gz"
+#   - jdk_file: "jdk-8u331-linux-x64.tar.gz"
+  tasks:
+  - name: Extract files
+    unarchive: 
+      src: "{{ item }}"
+      dest: "/tmp/"
+      list_files: yes
+    register: archive_contents
+    with_items:
+      - "{{ tar_file }}"

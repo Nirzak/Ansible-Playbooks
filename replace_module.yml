@@ -1,0 +1,13 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  vars:
+    - nm_home: "/usr/local/Oracle/user_projects/domains/testdomain/nodemanager"
+  tasks:
+  - name: Ansible replace ListenAddress
+    replace:
+      path: "{{ nm_home }}/nodemanager.properties"
+      regexp: 'ListenAddress=[a-z0-9.]*'
+      replace: "ListenAddress="
+      backup: yes

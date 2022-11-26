@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  vars:
+    - bundle_home: "/home/nirjas/study/serverfiles/bundle/customFiles"
+    - domain_home: "/usr/local/Oracle/user_projects/domains/testdomain"
+  tasks:
+  - name: Copying custom files
+    copy:
+      src: '{{ item.src }}'
+      dest: '{{ item.dest }}'
+      owner: oracle
+      group: oracle
+      mode: 0755
+    with_items:
+      - { src: '{{ bundle_home }}/server-config/coherence', dest: '{{ domain_home }}/config/' }
+      - { src: '{{ bundle_home }}/server-config/log', dest: '{{ domain_home }}/config/' }
+      - { src: '{{ bundle_home }}/server-config/start-script/startCustomWebLogic.sh', dest: '{{ domain_home }}/config/' }
+      - { src: '{{ bundle_home }}/server-config/config/ojdbc', dest: '{{ domain_home }}/config/' }
+      - { src: '{{ bundle_home }}/lib', dest: '{{ domain_home }}/' }

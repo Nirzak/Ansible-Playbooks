@@ -1,0 +1,13 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  vars:
+    - domain_home: "/usr/local/Oracle/user_projects/domains/testdomain/bin"
+  tasks:
+  - name: Ansible add Custom Settings to setDomainEnv
+    lineinfile:
+      path: “{{ domain_home }}/setDomainEnv.sh”
+      line: "{{ item }}"
+      insertbefore: "WL_HOME="
+    loop: "{{ query('lines', 'cat custom.txt') }}"

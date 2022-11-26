@@ -1,0 +1,11 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  tasks:
+    - name: Copying Managed Server Template
+      copy:
+        src: "/home/nirzak/study/serverfiles/weblogic_ms.jar"
+        dest: "/home/oracle/"
+    - name: Unpacking Templates to Managed Servers
+      shell: "source ~/.bashrc && unpack.sh -template=/home/oracle/weblogic_ms.jar -domain=/usr/local/Oracle/user_projects/domains/testdomain"

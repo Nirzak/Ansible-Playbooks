@@ -1,0 +1,14 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: oracle
+  tasks:
+  - name: Creating necessary directories
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: oracle
+      group: oracle
+      mode: 0775
+      recurse: yes #recurse is like mkdir -p
+    loop: "{{ query('lines', 'cat directories.txt') }}"
